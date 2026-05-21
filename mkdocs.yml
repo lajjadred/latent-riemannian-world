@@ -1,0 +1,43 @@
+site_name: latent-riemannian-world
+site_url: https://lajjadred.github.io/latent-riemannian-world
+site_author: lajjadred
+site_description: Riemannian geometry and Bayesian inference for diffusion model latent spaces
+
+repo_name: lajjadred/latent-riemannian-world
+repo_url: https://github.com/lajjadred/latent-riemannian-world
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: pink
+      accent: pink
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - search.highlight
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - API Reference:
+    - lrw.metric: api/metric.md
+    - lrw.geodesic: api/geodesic.md
+    - lrw.transport: api/transport.md
+    - lrw.bayes: api/bayes.md
+    - lrw.world: api/world.md
+    - lrw.utils: api/utils.md
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - admonition

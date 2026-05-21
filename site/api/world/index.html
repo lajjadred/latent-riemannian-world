@@ -1,0 +1,3112 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Riemannian geometry and Bayesian inference for diffusion model latent spaces">
+      
+      
+        <meta name="author" content="lajjadred">
+      
+      
+        <link rel="canonical" href="https://lajjadred.github.io/latent-riemannian-world/api/world/">
+      
+      
+        <link rel="prev" href="../bayes/">
+      
+      
+        <link rel="next" href="../utils/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>lrw.world - latent-riemannian-world</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="pink" data-md-color-accent="pink">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lrwworld" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="latent-riemannian-world" class="md-header__button md-logo" aria-label="latent-riemannian-world" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            latent-riemannian-world
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              lrw.world
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="pink" data-md-color-accent="pink"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lajjadred/latent-riemannian-world" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lajjadred/latent-riemannian-world
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../getting-started/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../metric/" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="latent-riemannian-world" class="md-nav__button md-logo" aria-label="latent-riemannian-world" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    latent-riemannian-world
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lajjadred/latent-riemannian-world" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lajjadred/latent-riemannian-world
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metric/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    lrw.metric
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geodesic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    lrw.geodesic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    lrw.transport
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bayes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    lrw.bayes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    lrw.world
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    lrw.world
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LatentStateSpace
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LatentStateSpace">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace.log_transition_prob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        log_transition_prob
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="log_transition_prob">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace.log_transition_prob--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace.log_transition_prob--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace.rollout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rollout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="rollout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace.rollout--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace.rollout--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace.step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        step
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="step">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace.step--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace.step--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RiemannianRSSM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RiemannianRSSM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.posterior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        posterior
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="posterior">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.posterior--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.posterior--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.prior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        prior
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="prior">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.prior--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.prior--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.riemannian_kl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        riemannian_kl
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="riemannian_kl">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.riemannian_kl--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.riemannian_kl--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.riemannian_sample" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        riemannian_sample
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="riemannian_sample">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.riemannian_sample--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.riemannian_sample--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        step
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="step">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.step--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.step--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    lrw.utils
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LatentStateSpace
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LatentStateSpace">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace.log_transition_prob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        log_transition_prob
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="log_transition_prob">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace.log_transition_prob--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace.log_transition_prob--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace.rollout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rollout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="rollout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace.rollout--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace.rollout--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace.step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        step
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="step">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace.step--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.LatentStateSpace.step--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RiemannianRSSM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RiemannianRSSM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.posterior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        posterior
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="posterior">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.posterior--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.posterior--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.prior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        prior
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="prior">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.prior--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.prior--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.riemannian_kl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        riemannian_kl
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="riemannian_kl">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.riemannian_kl--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.riemannian_kl--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.riemannian_sample" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        riemannian_sample
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="riemannian_sample">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.riemannian_sample--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.riemannian_sample--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        step
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="step">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.step--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lrw.world.RiemannianRSSM.step--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="lrwworld">lrw.world</h1>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<a id="lrw.world.LatentStateSpace"></a>
+    <div class="doc doc-contents first">
+
+
+
+        <p>Models temporal transitions in latent space as geodesic flows.</p>
+<p>Instead of treating z_{t+1} = z_t + noise (Euclidean assumption),
+this model treats the transition as movement along a geodesic on
+the Riemannian manifold defined by the metric G(z).</p>
+<p>z_{t+1} = geodesic_step(z_t, v_t, dt)</p>
+<p>where v_t is the latent velocity (tangent vector) at time t.</p>
+<h3 id="lrw.world.LatentStateSpace--parameters">Parameters</h3>
+<p>metric : RiemannianMetric
+    The Riemannian metric defining the manifold geometry.
+solver : GeodesicSolver or None
+    Geodesic solver. If None, creates one with default settings.
+dt : float
+    Time step size for state transitions.
+noise_scale : float
+    Scale of Gaussian noise added to velocity at each step.
+    Set to 0.0 for deterministic transitions.</p>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>src\lrw\world\state_space.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 12</span>
+<span class="normal"> 13</span>
+<span class="normal"> 14</span>
+<span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">LatentStateSpace</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Models temporal transitions in latent space as geodesic flows.</span>
+
+<span class="sd">    Instead of treating z_{t+1} = z_t + noise (Euclidean assumption),</span>
+<span class="sd">    this model treats the transition as movement along a geodesic on</span>
+<span class="sd">    the Riemannian manifold defined by the metric G(z).</span>
+
+<span class="sd">    z_{t+1} = geodesic_step(z_t, v_t, dt)</span>
+
+<span class="sd">    where v_t is the latent velocity (tangent vector) at time t.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    metric : RiemannianMetric</span>
+<span class="sd">        The Riemannian metric defining the manifold geometry.</span>
+<span class="sd">    solver : GeodesicSolver or None</span>
+<span class="sd">        Geodesic solver. If None, creates one with default settings.</span>
+<span class="sd">    dt : float</span>
+<span class="sd">        Time step size for state transitions.</span>
+<span class="sd">    noise_scale : float</span>
+<span class="sd">        Scale of Gaussian noise added to velocity at each step.</span>
+<span class="sd">        Set to 0.0 for deterministic transitions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">metric</span><span class="p">:</span> <span class="n">RiemannianMetric</span><span class="p">,</span>
+        <span class="n">solver</span><span class="p">:</span> <span class="n">GeodesicSolver</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">noise_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">=</span> <span class="n">metric</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="o">=</span> <span class="n">solver</span> <span class="ow">or</span> <span class="n">GeodesicSolver</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">noise_scale</span> <span class="o">=</span> <span class="n">noise_scale</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Advance the state by one time step along the geodesic.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        z : Tensor</span>
+<span class="sd">            Shape (B, D) — current latent state.</span>
+<span class="sd">        v : Tensor</span>
+<span class="sd">            Shape (B, D) — current latent velocity.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple[Tensor, Tensor]</span>
+<span class="sd">            (z_next, v_next) — next state and velocity.</span>
+<span class="sd">            Both have shape (B, D).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Compute geodesic acceleration at current state</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">geodesic_acceleration</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>  <span class="c1"># (B, D)</span>
+
+        <span class="c1"># Euler integration on the manifold</span>
+        <span class="n">z_next</span> <span class="o">=</span> <span class="n">z</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">*</span> <span class="n">v</span>
+        <span class="n">v_next</span> <span class="o">=</span> <span class="n">v</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">*</span> <span class="n">a</span>
+
+        <span class="c1"># Optional stochastic noise on velocity</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_scale</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">noise</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn_like</span><span class="p">(</span><span class="n">v_next</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_scale</span>
+            <span class="n">v_next</span> <span class="o">=</span> <span class="n">v_next</span> <span class="o">+</span> <span class="n">noise</span>
+
+        <span class="k">return</span> <span class="n">z_next</span><span class="p">,</span> <span class="n">v_next</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">rollout</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">z0</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">v0</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">n_steps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Roll out a trajectory from initial state z0 with velocity v0.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        z0 : Tensor</span>
+<span class="sd">            Shape (B, D) — initial latent state.</span>
+<span class="sd">        v0 : Tensor</span>
+<span class="sd">            Shape (B, D) — initial latent velocity.</span>
+<span class="sd">        n_steps : int</span>
+<span class="sd">            Number of steps to roll out.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple[Tensor, Tensor]</span>
+<span class="sd">            (states, velocities) — shape (n_steps+1, B, D) each.</span>
+<span class="sd">            Index 0 is the initial state.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="n">z0</span><span class="p">]</span>
+        <span class="n">velocities</span> <span class="o">=</span> <span class="p">[</span><span class="n">v0</span><span class="p">]</span>
+
+        <span class="n">z</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">z0</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span> <span class="n">v0</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+            <span class="n">z</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+            <span class="n">velocities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">states</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">velocities</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_transition_prob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">z_next</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute log probability of transition z -&gt; z_next under the model.</span>
+
+<span class="sd">        Models the transition as a Gaussian centered on the geodesic prediction:</span>
+<span class="sd">            p(z_{t+1} | z_t, v_t) = N(z_{t+1}; z_t + dt*v_t, sigma^2 * G^{-1}(z_t))</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        z : Tensor</span>
+<span class="sd">            Shape (B, D) — current state.</span>
+<span class="sd">        z_next : Tensor</span>
+<span class="sd">            Shape (B, D) — next state.</span>
+<span class="sd">        v : Tensor</span>
+<span class="sd">            Shape (B, D) — current velocity.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Tensor</span>
+<span class="sd">            Shape (B,) — log transition probability per batch element.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">z_pred</span> <span class="o">=</span> <span class="n">z</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">*</span> <span class="n">v</span>               <span class="c1"># predicted next state</span>
+        <span class="n">residual</span> <span class="o">=</span> <span class="n">z_next</span> <span class="o">-</span> <span class="n">z_pred</span>             <span class="c1"># (B, D)</span>
+
+        <span class="n">G</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">metric_tensor</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>       <span class="c1"># (B, D, D)</span>
+
+        <span class="c1"># Mahalanobis distance: residual^T G residual</span>
+        <span class="n">Gr</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">bmm</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">residual</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, D)</span>
+        <span class="n">maha</span> <span class="o">=</span> <span class="p">(</span><span class="n">residual</span> <span class="o">*</span> <span class="n">Gr</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>     <span class="c1"># (B,)</span>
+
+        <span class="c1"># Log det of G for normalization</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">logdet</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">slogdet</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+        <span class="n">D</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">log_prob</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">maha</span> <span class="o">+</span> <span class="n">logdet</span> <span class="o">+</span> <span class="n">D</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="mf">3.14159</span><span class="p">)))</span>
+
+        <span class="k">return</span> <span class="n">log_prob</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;LatentStateSpace(&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;dt=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;noise_scale=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">noise_scale</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="lrw.world.LatentStateSpace.log_transition_prob" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">log_transition_prob</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">z_next</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Compute log probability of transition z -&gt; z_next under the model.</p>
+
+
+<details class="models-the-transition-as-a-gaussian-centered-on-the-geodesic-prediction" open>
+  <summary>Models the transition as a Gaussian centered on the geodesic prediction</summary>
+  <p>p(z_{t+1} | z_t, v_t) = N(z_{t+1}; z_t + dt*v_t, sigma^2 * G^{-1}(z_t))</p>
+</details>        <h4 id="lrw.world.LatentStateSpace.log_transition_prob--parameters">Parameters</h4>
+<p>z : Tensor
+    Shape (B, D) — current state.
+z_next : Tensor
+    Shape (B, D) — next state.
+v : Tensor
+    Shape (B, D) — current velocity.</p>
+<h4 id="lrw.world.LatentStateSpace.log_transition_prob--returns">Returns</h4>
+<p>Tensor
+    Shape (B,) — log transition probability per batch element.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src\lrw\world\state_space.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">log_transition_prob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">z_next</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute log probability of transition z -&gt; z_next under the model.</span>
+
+<span class="sd">    Models the transition as a Gaussian centered on the geodesic prediction:</span>
+<span class="sd">        p(z_{t+1} | z_t, v_t) = N(z_{t+1}; z_t + dt*v_t, sigma^2 * G^{-1}(z_t))</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    z : Tensor</span>
+<span class="sd">        Shape (B, D) — current state.</span>
+<span class="sd">    z_next : Tensor</span>
+<span class="sd">        Shape (B, D) — next state.</span>
+<span class="sd">    v : Tensor</span>
+<span class="sd">        Shape (B, D) — current velocity.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Tensor</span>
+<span class="sd">        Shape (B,) — log transition probability per batch element.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">z_pred</span> <span class="o">=</span> <span class="n">z</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">*</span> <span class="n">v</span>               <span class="c1"># predicted next state</span>
+    <span class="n">residual</span> <span class="o">=</span> <span class="n">z_next</span> <span class="o">-</span> <span class="n">z_pred</span>             <span class="c1"># (B, D)</span>
+
+    <span class="n">G</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">metric_tensor</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>       <span class="c1"># (B, D, D)</span>
+
+    <span class="c1"># Mahalanobis distance: residual^T G residual</span>
+    <span class="n">Gr</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">bmm</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">residual</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, D)</span>
+    <span class="n">maha</span> <span class="o">=</span> <span class="p">(</span><span class="n">residual</span> <span class="o">*</span> <span class="n">Gr</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>     <span class="c1"># (B,)</span>
+
+    <span class="c1"># Log det of G for normalization</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">logdet</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">slogdet</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+    <span class="n">D</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">log_prob</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">maha</span> <span class="o">+</span> <span class="n">logdet</span> <span class="o">+</span> <span class="n">D</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="mf">3.14159</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="n">log_prob</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="lrw.world.LatentStateSpace.rollout" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">rollout</span><span class="p">(</span><span class="n">z0</span><span class="p">,</span> <span class="n">v0</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Roll out a trajectory from initial state z0 with velocity v0.</p>
+<h4 id="lrw.world.LatentStateSpace.rollout--parameters">Parameters</h4>
+<p>z0 : Tensor
+    Shape (B, D) — initial latent state.
+v0 : Tensor
+    Shape (B, D) — initial latent velocity.
+n_steps : int
+    Number of steps to roll out.</p>
+<h4 id="lrw.world.LatentStateSpace.rollout--returns">Returns</h4>
+<p>tuple[Tensor, Tensor]
+    (states, velocities) — shape (n_steps+1, B, D) each.
+    Index 0 is the initial state.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src\lrw\world\state_space.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">rollout</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">z0</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">v0</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">n_steps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Roll out a trajectory from initial state z0 with velocity v0.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    z0 : Tensor</span>
+<span class="sd">        Shape (B, D) — initial latent state.</span>
+<span class="sd">    v0 : Tensor</span>
+<span class="sd">        Shape (B, D) — initial latent velocity.</span>
+<span class="sd">    n_steps : int</span>
+<span class="sd">        Number of steps to roll out.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple[Tensor, Tensor]</span>
+<span class="sd">        (states, velocities) — shape (n_steps+1, B, D) each.</span>
+<span class="sd">        Index 0 is the initial state.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="n">z0</span><span class="p">]</span>
+    <span class="n">velocities</span> <span class="o">=</span> <span class="p">[</span><span class="n">v0</span><span class="p">]</span>
+
+    <span class="n">z</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">z0</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span> <span class="n">v0</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+        <span class="n">z</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+        <span class="n">velocities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">states</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">velocities</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="lrw.world.LatentStateSpace.step" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">step</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Advance the state by one time step along the geodesic.</p>
+<h4 id="lrw.world.LatentStateSpace.step--parameters">Parameters</h4>
+<p>z : Tensor
+    Shape (B, D) — current latent state.
+v : Tensor
+    Shape (B, D) — current latent velocity.</p>
+<h4 id="lrw.world.LatentStateSpace.step--returns">Returns</h4>
+<p>tuple[Tensor, Tensor]
+    (z_next, v_next) — next state and velocity.
+    Both have shape (B, D).</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src\lrw\world\state_space.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Advance the state by one time step along the geodesic.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    z : Tensor</span>
+<span class="sd">        Shape (B, D) — current latent state.</span>
+<span class="sd">    v : Tensor</span>
+<span class="sd">        Shape (B, D) — current latent velocity.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple[Tensor, Tensor]</span>
+<span class="sd">        (z_next, v_next) — next state and velocity.</span>
+<span class="sd">        Both have shape (B, D).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Compute geodesic acceleration at current state</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">geodesic_acceleration</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>  <span class="c1"># (B, D)</span>
+
+    <span class="c1"># Euler integration on the manifold</span>
+    <span class="n">z_next</span> <span class="o">=</span> <span class="n">z</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">*</span> <span class="n">v</span>
+    <span class="n">v_next</span> <span class="o">=</span> <span class="n">v</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">*</span> <span class="n">a</span>
+
+    <span class="c1"># Optional stochastic noise on velocity</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_scale</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn_like</span><span class="p">(</span><span class="n">v_next</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_scale</span>
+        <span class="n">v_next</span> <span class="o">=</span> <span class="n">v_next</span> <span class="o">+</span> <span class="n">noise</span>
+
+    <span class="k">return</span> <span class="n">z_next</span><span class="p">,</span> <span class="n">v_next</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<a id="lrw.world.RiemannianRSSM"></a>
+    <div class="doc doc-contents first">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="torch.nn.Module">Module</span></code></p>
+
+
+
+        <p>Riemannian Recurrent State Space Model.</p>
+<p>Extends the Dreamer/RSSM architecture by replacing Euclidean latent
+transitions with geodesic flows on a Riemannian manifold.</p>
+
+
+<details class="standard-rssm" open>
+  <summary>Standard RSSM</summary>
+  <p>h_t = f(h_{t-1}, z_{t-1}, a_{t-1})      (deterministic path)
+z_t ~ p(z_t | h_t)                        (stochastic state)</p>
+</details>
+
+<details class="riemannianrssm" open>
+  <summary>RiemannianRSSM</summary>
+  <p>h_t = f(h_{t-1}, z_{t-1}, a_{t-1})      (deterministic path)
+mu_t, sigma_t = prior_net(h_t)
+z_t ~ N_R(mu_t, sigma_t)                  (Riemannian Gaussian)</p>
+</details>        <p>where N_R is a Gaussian whose covariance is shaped by G^{-1}(mu_t).</p>
+<h3 id="lrw.world.RiemannianRSSM--parameters">Parameters</h3>
+<p>metric : RiemannianMetric
+    The Riemannian metric defining the manifold geometry.
+latent_dim : int
+    Dimension of the latent state z.
+hidden_dim : int
+    Dimension of the deterministic hidden state h.
+action_dim : int
+    Dimension of the action vector a. Set to 0 if no actions.</p>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>src\lrw\world\rssm.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 13</span>
+<span class="normal"> 14</span>
+<span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">RiemannianRSSM</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Riemannian Recurrent State Space Model.</span>
+
+<span class="sd">    Extends the Dreamer/RSSM architecture by replacing Euclidean latent</span>
+<span class="sd">    transitions with geodesic flows on a Riemannian manifold.</span>
+
+<span class="sd">    Standard RSSM:</span>
+<span class="sd">        h_t = f(h_{t-1}, z_{t-1}, a_{t-1})      (deterministic path)</span>
+<span class="sd">        z_t ~ p(z_t | h_t)                        (stochastic state)</span>
+
+<span class="sd">    RiemannianRSSM:</span>
+<span class="sd">        h_t = f(h_{t-1}, z_{t-1}, a_{t-1})      (deterministic path)</span>
+<span class="sd">        mu_t, sigma_t = prior_net(h_t)</span>
+<span class="sd">        z_t ~ N_R(mu_t, sigma_t)                  (Riemannian Gaussian)</span>
+
+<span class="sd">    where N_R is a Gaussian whose covariance is shaped by G^{-1}(mu_t).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    metric : RiemannianMetric</span>
+<span class="sd">        The Riemannian metric defining the manifold geometry.</span>
+<span class="sd">    latent_dim : int</span>
+<span class="sd">        Dimension of the latent state z.</span>
+<span class="sd">    hidden_dim : int</span>
+<span class="sd">        Dimension of the deterministic hidden state h.</span>
+<span class="sd">    action_dim : int</span>
+<span class="sd">        Dimension of the action vector a. Set to 0 if no actions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">metric</span><span class="p">:</span> <span class="n">RiemannianMetric</span><span class="p">,</span>
+        <span class="n">latent_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">hidden_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">action_dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">=</span> <span class="n">metric</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">latent_dim</span> <span class="o">=</span> <span class="n">latent_dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_dim</span> <span class="o">=</span> <span class="n">hidden_dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_dim</span> <span class="o">=</span> <span class="n">action_dim</span>
+
+        <span class="c1"># Deterministic path: GRU cell</span>
+        <span class="n">gru_input_dim</span> <span class="o">=</span> <span class="n">latent_dim</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="n">action_dim</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gru</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">GRUCell</span><span class="p">(</span><span class="n">gru_input_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">)</span>
+
+        <span class="c1"># Prior network: h_t -&gt; (mu, log_sigma)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prior_net</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ELU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">latent_dim</span> <span class="o">*</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Posterior network: (h_t, obs_embed) -&gt; (mu, log_sigma)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">posterior_net</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span> <span class="o">+</span> <span class="n">latent_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ELU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">latent_dim</span> <span class="o">*</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">prior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute prior distribution parameters from hidden state.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        h : Tensor</span>
+<span class="sd">            Shape (B, hidden_dim).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple[Tensor, Tensor]</span>
+<span class="sd">            (mu, sigma) — Shape (B, latent_dim) each.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prior_net</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>                        <span class="c1"># (B, latent_dim * 2)</span>
+        <span class="n">mu</span><span class="p">,</span> <span class="n">log_sigma</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">log_sigma</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-4</span>
+        <span class="k">return</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">posterior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">obs_embed</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute posterior distribution parameters from hidden state and observation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        h : Tensor</span>
+<span class="sd">            Shape (B, hidden_dim).</span>
+<span class="sd">        obs_embed : Tensor</span>
+<span class="sd">            Shape (B, latent_dim) — encoded observation.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple[Tensor, Tensor]</span>
+<span class="sd">            (mu, sigma) — Shape (B, latent_dim) each.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">inp</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">h</span><span class="p">,</span> <span class="n">obs_embed</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>        <span class="c1"># (B, hidden_dim + latent_dim)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">posterior_net</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
+        <span class="n">mu</span><span class="p">,</span> <span class="n">log_sigma</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">log_sigma</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-4</span>
+        <span class="k">return</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">riemannian_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sample from Riemannian Gaussian N_R(mu, sigma).</span>
+
+<span class="sd">        The covariance is adapted by G^{-1}(mu):</span>
+<span class="sd">            z = mu + sigma * G^{-1/2}(mu) * eps,  eps ~ N(0, I)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mu : Tensor</span>
+<span class="sd">            Shape (B, D) — mean (base point on manifold).</span>
+<span class="sd">        sigma : Tensor</span>
+<span class="sd">            Shape (B, D) — diagonal scale.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Tensor</span>
+<span class="sd">            Shape (B, D) — sampled latent state.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">lrw.utils.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">sym_sqrt</span>
+
+        <span class="n">G</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">metric_tensor</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>              <span class="c1"># (B, D, D)</span>
+        <span class="n">G_inv</span> <span class="o">=</span> <span class="n">sym_inv</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>                             <span class="c1"># (B, D, D)</span>
+        <span class="n">G_inv_sqrt</span> <span class="o">=</span> <span class="n">sym_sqrt</span><span class="p">(</span><span class="n">G_inv</span><span class="p">)</span>                   <span class="c1"># (B, D, D)</span>
+
+        <span class="n">eps</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn_like</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>                     <span class="c1"># (B, D)</span>
+        <span class="n">scaled_eps</span> <span class="o">=</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">eps</span>                       <span class="c1"># (B, D)</span>
+
+        <span class="n">noise</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">bmm</span><span class="p">(</span>
+            <span class="n">G_inv_sqrt</span><span class="p">,</span>
+            <span class="n">scaled_eps</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>                                  <span class="c1"># (B, D)</span>
+
+        <span class="k">return</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">noise</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">h</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">z</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">action</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform one RSSM step.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        h : Tensor</span>
+<span class="sd">            Shape (B, hidden_dim) — previous hidden state.</span>
+<span class="sd">        z : Tensor</span>
+<span class="sd">            Shape (B, latent_dim) — previous latent state.</span>
+<span class="sd">        action : Tensor or None</span>
+<span class="sd">            Shape (B, action_dim) — action taken. If None, uses zeros.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple[Tensor, Tensor, Tensor, Tensor]</span>
+<span class="sd">            (h_next, z_prior, mu_prior, sigma_prior)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">action</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_dim</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">z</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="n">gru_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">action</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>     <span class="c1"># (B, latent_dim + action_dim)</span>
+        <span class="n">h_next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gru</span><span class="p">(</span><span class="n">gru_input</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>                <span class="c1"># (B, hidden_dim)</span>
+
+        <span class="n">mu_prior</span><span class="p">,</span> <span class="n">sigma_prior</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prior</span><span class="p">(</span><span class="n">h_next</span><span class="p">)</span>
+        <span class="n">z_prior</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">riemannian_sample</span><span class="p">(</span><span class="n">mu_prior</span><span class="p">,</span> <span class="n">sigma_prior</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">h_next</span><span class="p">,</span> <span class="n">z_prior</span><span class="p">,</span> <span class="n">mu_prior</span><span class="p">,</span> <span class="n">sigma_prior</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">riemannian_kl</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">mu_post</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">sigma_post</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">mu_prior</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">sigma_prior</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Approximate KL divergence between posterior and prior,</span>
+<span class="sd">        weighted by the Riemannian metric at the posterior mean.</span>
+
+<span class="sd">        KL_R ~ 0.5 * tr(G(mu_post) * Sigma_post * G(mu_prior)^{-1})</span>
+<span class="sd">               + geodesic_dist(mu_post, mu_prior)^2 - D</span>
+
+<span class="sd">        For simplicity, uses diagonal Gaussian KL as baseline</span>
+<span class="sd">        with Riemannian correction via metric ratio.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mu_post, sigma_post : Tensor</span>
+<span class="sd">            Shape (B, D) — posterior parameters.</span>
+<span class="sd">        mu_prior, sigma_prior : Tensor</span>
+<span class="sd">            Shape (B, D) — prior parameters.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Tensor</span>
+<span class="sd">            Shape (B,) — KL divergence per batch element.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Standard diagonal Gaussian KL as baseline</span>
+        <span class="n">var_post</span> <span class="o">=</span> <span class="n">sigma_post</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">var_prior</span> <span class="o">=</span> <span class="n">sigma_prior</span> <span class="o">**</span> <span class="mi">2</span>
+
+        <span class="n">kl</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">var_post</span> <span class="o">/</span> <span class="n">var_prior</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">))</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">mu_post</span> <span class="o">-</span> <span class="n">mu_prior</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">var_prior</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
+            <span class="o">-</span> <span class="mf">1.0</span>
+            <span class="o">+</span> <span class="n">var_prior</span><span class="o">.</span><span class="n">log</span><span class="p">()</span> <span class="o">-</span> <span class="n">var_post</span><span class="o">.</span><span class="n">log</span><span class="p">()</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">kl</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;RiemannianRSSM(&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;latent_dim=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">latent_dim</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;hidden_dim=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hidden_dim</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;action_dim=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">action_dim</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="lrw.world.RiemannianRSSM.posterior" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">posterior</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">obs_embed</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Compute posterior distribution parameters from hidden state and observation.</p>
+<h4 id="lrw.world.RiemannianRSSM.posterior--parameters">Parameters</h4>
+<p>h : Tensor
+    Shape (B, hidden_dim).
+obs_embed : Tensor
+    Shape (B, latent_dim) — encoded observation.</p>
+<h4 id="lrw.world.RiemannianRSSM.posterior--returns">Returns</h4>
+<p>tuple[Tensor, Tensor]
+    (mu, sigma) — Shape (B, latent_dim) each.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src\lrw\world\rssm.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">posterior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">obs_embed</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute posterior distribution parameters from hidden state and observation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    h : Tensor</span>
+<span class="sd">        Shape (B, hidden_dim).</span>
+<span class="sd">    obs_embed : Tensor</span>
+<span class="sd">        Shape (B, latent_dim) — encoded observation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple[Tensor, Tensor]</span>
+<span class="sd">        (mu, sigma) — Shape (B, latent_dim) each.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">inp</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">h</span><span class="p">,</span> <span class="n">obs_embed</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>        <span class="c1"># (B, hidden_dim + latent_dim)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">posterior_net</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
+    <span class="n">mu</span><span class="p">,</span> <span class="n">log_sigma</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">log_sigma</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-4</span>
+    <span class="k">return</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="lrw.world.RiemannianRSSM.prior" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">prior</span><span class="p">(</span><span class="n">h</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Compute prior distribution parameters from hidden state.</p>
+<h4 id="lrw.world.RiemannianRSSM.prior--parameters">Parameters</h4>
+<p>h : Tensor
+    Shape (B, hidden_dim).</p>
+<h4 id="lrw.world.RiemannianRSSM.prior--returns">Returns</h4>
+<p>tuple[Tensor, Tensor]
+    (mu, sigma) — Shape (B, latent_dim) each.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src\lrw\world\rssm.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">prior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute prior distribution parameters from hidden state.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    h : Tensor</span>
+<span class="sd">        Shape (B, hidden_dim).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple[Tensor, Tensor]</span>
+<span class="sd">        (mu, sigma) — Shape (B, latent_dim) each.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prior_net</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>                        <span class="c1"># (B, latent_dim * 2)</span>
+    <span class="n">mu</span><span class="p">,</span> <span class="n">log_sigma</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">log_sigma</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-4</span>
+    <span class="k">return</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="lrw.world.RiemannianRSSM.riemannian_kl" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">riemannian_kl</span><span class="p">(</span><span class="n">mu_post</span><span class="p">,</span> <span class="n">sigma_post</span><span class="p">,</span> <span class="n">mu_prior</span><span class="p">,</span> <span class="n">sigma_prior</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Approximate KL divergence between posterior and prior,
+weighted by the Riemannian metric at the posterior mean.</p>
+<p>KL_R ~ 0.5 * tr(G(mu_post) * Sigma_post * G(mu_prior)^{-1})
+       + geodesic_dist(mu_post, mu_prior)^2 - D</p>
+<p>For simplicity, uses diagonal Gaussian KL as baseline
+with Riemannian correction via metric ratio.</p>
+<h4 id="lrw.world.RiemannianRSSM.riemannian_kl--parameters">Parameters</h4>
+<p>mu_post, sigma_post : Tensor
+    Shape (B, D) — posterior parameters.
+mu_prior, sigma_prior : Tensor
+    Shape (B, D) — prior parameters.</p>
+<h4 id="lrw.world.RiemannianRSSM.riemannian_kl--returns">Returns</h4>
+<p>Tensor
+    Shape (B,) — KL divergence per batch element.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src\lrw\world\rssm.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">riemannian_kl</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">mu_post</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">sigma_post</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">mu_prior</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">sigma_prior</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Approximate KL divergence between posterior and prior,</span>
+<span class="sd">    weighted by the Riemannian metric at the posterior mean.</span>
+
+<span class="sd">    KL_R ~ 0.5 * tr(G(mu_post) * Sigma_post * G(mu_prior)^{-1})</span>
+<span class="sd">           + geodesic_dist(mu_post, mu_prior)^2 - D</span>
+
+<span class="sd">    For simplicity, uses diagonal Gaussian KL as baseline</span>
+<span class="sd">    with Riemannian correction via metric ratio.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mu_post, sigma_post : Tensor</span>
+<span class="sd">        Shape (B, D) — posterior parameters.</span>
+<span class="sd">    mu_prior, sigma_prior : Tensor</span>
+<span class="sd">        Shape (B, D) — prior parameters.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Tensor</span>
+<span class="sd">        Shape (B,) — KL divergence per batch element.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Standard diagonal Gaussian KL as baseline</span>
+    <span class="n">var_post</span> <span class="o">=</span> <span class="n">sigma_post</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">var_prior</span> <span class="o">=</span> <span class="n">sigma_prior</span> <span class="o">**</span> <span class="mi">2</span>
+
+    <span class="n">kl</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">var_post</span> <span class="o">/</span> <span class="n">var_prior</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">))</span>
+        <span class="o">+</span> <span class="p">(</span><span class="n">mu_post</span> <span class="o">-</span> <span class="n">mu_prior</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">var_prior</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
+        <span class="o">-</span> <span class="mf">1.0</span>
+        <span class="o">+</span> <span class="n">var_prior</span><span class="o">.</span><span class="n">log</span><span class="p">()</span> <span class="o">-</span> <span class="n">var_post</span><span class="o">.</span><span class="n">log</span><span class="p">()</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">kl</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="lrw.world.RiemannianRSSM.riemannian_sample" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">riemannian_sample</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Sample from Riemannian Gaussian N_R(mu, sigma).</p>
+<p>The covariance is adapted by G^{-1}(mu):
+    z = mu + sigma * G^{-1/2}(mu) * eps,  eps ~ N(0, I)</p>
+<h4 id="lrw.world.RiemannianRSSM.riemannian_sample--parameters">Parameters</h4>
+<p>mu : Tensor
+    Shape (B, D) — mean (base point on manifold).
+sigma : Tensor
+    Shape (B, D) — diagonal scale.</p>
+<h4 id="lrw.world.RiemannianRSSM.riemannian_sample--returns">Returns</h4>
+<p>Tensor
+    Shape (B, D) — sampled latent state.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src\lrw\world\rssm.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">riemannian_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sample from Riemannian Gaussian N_R(mu, sigma).</span>
+
+<span class="sd">    The covariance is adapted by G^{-1}(mu):</span>
+<span class="sd">        z = mu + sigma * G^{-1/2}(mu) * eps,  eps ~ N(0, I)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mu : Tensor</span>
+<span class="sd">        Shape (B, D) — mean (base point on manifold).</span>
+<span class="sd">    sigma : Tensor</span>
+<span class="sd">        Shape (B, D) — diagonal scale.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Tensor</span>
+<span class="sd">        Shape (B, D) — sampled latent state.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">lrw.utils.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">sym_sqrt</span>
+
+    <span class="n">G</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">metric_tensor</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>              <span class="c1"># (B, D, D)</span>
+    <span class="n">G_inv</span> <span class="o">=</span> <span class="n">sym_inv</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>                             <span class="c1"># (B, D, D)</span>
+    <span class="n">G_inv_sqrt</span> <span class="o">=</span> <span class="n">sym_sqrt</span><span class="p">(</span><span class="n">G_inv</span><span class="p">)</span>                   <span class="c1"># (B, D, D)</span>
+
+    <span class="n">eps</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn_like</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>                     <span class="c1"># (B, D)</span>
+    <span class="n">scaled_eps</span> <span class="o">=</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">eps</span>                       <span class="c1"># (B, D)</span>
+
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">bmm</span><span class="p">(</span>
+        <span class="n">G_inv_sqrt</span><span class="p">,</span>
+        <span class="n">scaled_eps</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>                                  <span class="c1"># (B, D)</span>
+
+    <span class="k">return</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">noise</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="lrw.world.RiemannianRSSM.step" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">step</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Perform one RSSM step.</p>
+<h4 id="lrw.world.RiemannianRSSM.step--parameters">Parameters</h4>
+<p>h : Tensor
+    Shape (B, hidden_dim) — previous hidden state.
+z : Tensor
+    Shape (B, latent_dim) — previous latent state.
+action : Tensor or None
+    Shape (B, action_dim) — action taken. If None, uses zeros.</p>
+<h4 id="lrw.world.RiemannianRSSM.step--returns">Returns</h4>
+<p>tuple[Tensor, Tensor, Tensor, Tensor]
+    (h_next, z_prior, mu_prior, sigma_prior)</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src\lrw\world\rssm.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">h</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">z</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">action</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform one RSSM step.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    h : Tensor</span>
+<span class="sd">        Shape (B, hidden_dim) — previous hidden state.</span>
+<span class="sd">    z : Tensor</span>
+<span class="sd">        Shape (B, latent_dim) — previous latent state.</span>
+<span class="sd">    action : Tensor or None</span>
+<span class="sd">        Shape (B, action_dim) — action taken. If None, uses zeros.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple[Tensor, Tensor, Tensor, Tensor]</span>
+<span class="sd">        (h_next, z_prior, mu_prior, sigma_prior)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">action</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_dim</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">z</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="n">gru_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">action</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>     <span class="c1"># (B, latent_dim + action_dim)</span>
+    <span class="n">h_next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gru</span><span class="p">(</span><span class="n">gru_input</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>                <span class="c1"># (B, hidden_dim)</span>
+
+    <span class="n">mu_prior</span><span class="p">,</span> <span class="n">sigma_prior</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prior</span><span class="p">(</span><span class="n">h_next</span><span class="p">)</span>
+    <span class="n">z_prior</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">riemannian_sample</span><span class="p">(</span><span class="n">mu_prior</span><span class="p">,</span> <span class="n">sigma_prior</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">h_next</span><span class="p">,</span> <span class="n">z_prior</span><span class="p">,</span> <span class="n">mu_prior</span><span class="p">,</span> <span class="n">sigma_prior</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
