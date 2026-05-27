@@ -15,7 +15,7 @@ lrw.utils     : Shared math utilities
 (c) 2025 lajjadred — BSL-1.1 License
 """
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 __author__ = "lajjadred"
 
 from lrw import bayes, geodesic, metric, transport, utils, world
